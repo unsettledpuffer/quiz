@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Simple Maths Quiz</h1>
+    <div id="q1q"></div>
+    <div>
+        <input id="q1" type="text" placeholder="Type here..."> <div id="q1F"></div>
+    </div>
+    <hr>
+    <div id="q2q"></div>
+    <div>
+        <input id="q2" type="text" placeholder="Type here..."> <div id="q2F"></div>
+    </div>
+    <hr>
+    <div id="q3q"></div>
+    <div>
+        <input id="q3" type="text" placeholder="Type here..."> <div id="q3F"></div>
+    </div>
+    <hr>
+    <div id="q4q"></div>
+    <div>
+        <input id="q4" type="text" placeholder="Type here..."> <div id="q4F"></div>
+    </div>
+    <hr>
+    <div id="q5q"></div>
+    <div>
+        <input id="q5" type="text" placeholder="Type here..."> <div id="q5F"></div>
+    </div>
+
+
+    <hr>    
+    <button onclick="runF()">Submit</button>
+    <button onclick="generateQuestions()">Generate new questions</button>
+    <div id="finalScore"></div>
+
+    <script>
+        const responsesArray = ["q1","q2","q3","q4","q5"]
+        const feedbacksArray = ["q1F","q2F","q3F","q4F","q5F"]
+        const questionsArray = ["q1q","q2q","q3q","q4q","q5q"]
+        const answersArray = []
+        function generateQuestions() {
+            answersArray.length = 0
+            var operator = ""
+
+            
+            for (var i = 0; i < 5; i++) {
+                var question = document.getElementById(questionsArray[i])
+                question.innerHTML = ""
+                x = Math.floor(Math.random() * 10)
+                y = Math.floor(Math.random() * 10)
+                if (i == 0) {
+                    operator = "+"
+                    answersArray.push(x+y)
+                }
+                if (i == 1) {
+                    operator = "-"
+                    answersArray.push(x-y)
+                }
+                if (i == 2) {
+                    operator = "*"
+                    answersArray.push(x*y)
+                }
+                if (i == 3) {
+                    operator = "/"
+                    answersArray.push(x/y)
+                }
+                if (i == 4) {
+                    operator = "^"
+                    answersArray.push(x**y)
+                }
+                
+                question.innerHTML = x + operator + y
+                
+            }
+
+        }
+        generateQuestions()
+
+
+        
+        
+        function checkAnswers(responses, feedbacks, answers) {
+            var score = 0;
+            for (var count = 0; count < responses.length; count++){
+                var response = document.getElementById(responses[count]).value;
+                var answer = answers[count];
+                feedbackElement = document.getElementById(feedbacks[count]);
+                if (response == answer) {
+                    score += 1
+                    feedbackElement.innerHTML = "Correct"
+                    feedbackElement.style="color:green;"
+                }
+                else {
+                    feedbackElement.innerHTML = "Incorrect"
+                    feedbackElement.style="color:red;"
+                }
+            } 
+            return score
+        }
+    
+
+        function runF() {
+            var totalScore = checkAnswers(responsesArray, feedbacksArray, answersArray)
+            document.getElementById("finalScore").innerHTML = "Total score:" + totalScore + " / " + answersArray.length
+        }
+        
+
+    </script>
+
+</body>
+</html>
